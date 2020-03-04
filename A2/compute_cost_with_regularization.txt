@@ -1,0 +1,32 @@
+# GRADED FUNCTION: compute_cost_with_regularization
+
+def compute_cost_with_regularization(A3, Y, parameters, lambd):
+    """
+    Implement the cost function with L2 regularization. See formula (2) above.
+    
+    Arguments:
+    A3 -- post-activation, output of forward propagation, of shape (output size, number of examples)
+    Y -- "true" labels vector, of shape (output size, number of examples)
+    parameters -- python dictionary containing parameters of the model
+    
+    Returns:
+    cost - value of the regularized loss function (formula (2))
+    """
+    #print(parameters)
+    L=3 #len(parameters)/2 # /2 to exclude biase entry
+    #print("L = " + str(L))
+    m = Y.shape[1]
+    W1 = parameters["W1"]
+    W2 = parameters["W2"]
+    W3 = parameters["W3"]
+    
+    cross_entropy_cost = compute_cost(A3, Y) # This gives you the cross-entropy part of the cost
+    
+    ### START CODE HERE ### (approx. 1 line)
+    temp=0
+    for l in range(1,L+1):
+        temp=temp+np.sum(np.square(parameters["W"+  str(l)])) 
+    L2_regularization_cost =(lambd*temp/(2*m)) 
+    ### END CODER HERE ###
+    cost = cross_entropy_cost + L2_regularization_cost
+    return cost
